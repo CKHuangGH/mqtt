@@ -27,14 +27,14 @@ virt_conf = (
         roles=["cp"],
         number=cp,
         undercloud=roles["role0"],
-        flavour_desc={"core": 4, "mem": 8192},
+        flavour_desc={"core": 16, "mem": 32768},
         macs=list(subnet[0].free_macs)[1:2],
     )
     .add_machine(
         roles=["member"],
         number=w,
         undercloud=roles["role0"],
-        flavour_desc={"core": 2, "mem": 4096},
+        flavour_desc={"core": 2, "mem": 8192},
         macs=list(subnet[0].free_macs)[2:w+2],
     ).finalize()
 )
