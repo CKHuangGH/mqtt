@@ -24,3 +24,5 @@ i=$((i+1))
 done
 
 scp node_list root@$manage:/root/mqtt/package/node_list
+
+echo "management node is $manage"
