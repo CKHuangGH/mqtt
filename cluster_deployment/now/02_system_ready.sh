@@ -23,4 +23,4 @@ ssh -o StrictHostKeyChecking=no root@$j chmod 777 -R /root/mqtt/
 i=$((i+1))
 done
 
-scp node_list root@$manage:/root/mqtt/node_list
+scp node_list root@$manage:/root/mqtt/package/node_list
