@@ -1,5 +1,5 @@
 # Install and start cert-manager
- jetstack https://charts.jetstack.io
+helm repo add jetstack https://charts.jetstack.io
 helm repo update
 helm upgrade --install cert-manager jetstack/cert-manager \
   --namespace cert-manager \
@@ -9,6 +9,4 @@ helm upgrade --install cert-manager jetstack/cert-manager \
 # Install the EMQX Operator
 helm repo add emqx https://repos.emqx.io/charts
 helm repo update
-helm upgrade --install emqx-operator emqx/emqx-operator \
-  --namespace emqx-operator-system \
-  --create-namespace
+helm install emqx-operator emqx/emqx-operator --namespace emqx-operator-system --create-namespace
