@@ -18,22 +18,12 @@ while IFS= read -r ip_address; do
   scp -o StrictHostKeyChecking=no /root/mqtt/package/script/ntp.sh root@$ip_address:/root/
 done < "node_ip_all"
 
-LOGFILE="ntp_deploy_debug.log"
-
-echo "=== NTP Deployment Started at $(date) ===" > "$LOGFILE"
-
 while IFS= read -r ip_address; do
-  echo "[$(date)] Processing node: $ip_address" | tee -a "$LOGFILE"
+  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" mkdir -p /var/log/ntpsec
+  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" "nohup bash /root/ntp.sh > /var/log/ntpsec/ntp.log 2>&1 &"
+done < node_ip_all
 
-  echo "[$(date)] Creating /var/log/ntpsec directory" | tee -a "$LOGFILE"
-  ssh -o StrictHostKeyChecking=no root@"$ip_address" mkdir -p /var/log/ntpsec </dev/null
-
-  echo "[$(date)] Executing ntp.sh script (via nohup)" | tee -a "$LOGFILE"
-  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" \
-    "nohup bash /root/ntp.sh > /var/log/ntpsec/ntp.log 2>&1 &" </dev/null
-
-  echo "[$(date)] Finished processing $ip_address" | tee -a "$LOGFILE"
-done < "node_ip_all"
+wait
 
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 
