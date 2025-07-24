@@ -10,6 +10,7 @@ for j in $(cat node_list)
 do
     scp /home/chuang/.ssh/id_rsa root@$j:/root/.ssh
     scp -r ./mqtt root@$j:/root/
+    scp -r /home/chuang/bench_ctrl root@$j:/root/
 done
 
 echo "wait for 30 secs"
@@ -20,6 +21,7 @@ for j in $(cat node_list)
 do
 ssh -o StrictHostKeyChecking=no root@$j scp -o StrictHostKeyChecking=no /root/.kube/config root@$manage:/root/.kube/cluster$i
 ssh -o StrictHostKeyChecking=no root@$j chmod 777 -R /root/mqtt/
+
 i=$((i+1))
 done
 
