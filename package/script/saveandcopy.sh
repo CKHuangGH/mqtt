@@ -6,14 +6,10 @@ mkdir images
 mv bench_ctrl.tar ./images/bench_ctrl.tar
 mv bench_ctr-pub.tar ./images/bench_ctr-pub.tar
 
-> node_ip
-
-tail -n +2 node_ip_all > node_ip
-
 while IFS= read -r ip_address; do
   echo "Send to $ip_address..."
   scp -o StrictHostKeyChecking=no -r ./images/ root@$ip_address:/root/
-done < "node_ip"
+done < "node_ip_all"
 
 while IFS= read -r ip_address; do
   echo "Import to $ip_address..."
@@ -23,4 +19,4 @@ while IFS= read -r ip_address; do
     done
     wait
   '" </dev/null &
-done < "node_ip"
+done < "node_ip_all"
