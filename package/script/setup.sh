@@ -1,9 +1,9 @@
 mkdir /var/log/ntpsec
-sudo apt install tcpdump -y
+sudo apt-get install tcpdump -y
 sudo systemctl stop ntp
 sudo ntpd -gq
 sudo systemctl start ntp
-
+export DEBIAN_FRONTEND=noninteractive
 ip=$(cat node_list)
 
 > node_ip_all
