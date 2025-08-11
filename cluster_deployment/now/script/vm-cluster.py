@@ -34,7 +34,7 @@ virt_conf = (
         roles=["member"],
         number=w,
         undercloud=roles["role0"],
-        flavour_desc={"core": 2, "mem": 8192},
+        flavour_desc={"core": 16, "mem": 32768},
         macs=list(subnet[0].free_macs)[2:w+2],
     ).finalize()
 )
