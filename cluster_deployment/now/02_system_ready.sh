@@ -10,7 +10,8 @@ for j in $(cat node_list)
 do
     scp /home/chuang/.ssh/id_rsa root@$j:/root/.ssh
     scp -r ./mqtt root@$j:/root/
-    scp -r /home/chuang/bench_ctrl root@$j:/root/
+    # scp -r /home/chuang/bench_ctrl root@$j:/root/
+    scp -r /home/chuang/ps_bench root@$j:/root/
 done
 
 echo "wait for 30 secs"

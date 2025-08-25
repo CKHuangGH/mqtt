@@ -17,24 +17,24 @@ with open("reserved_management_networks.json", "r") as f:
 subnet = networks["my_subnet"]
 
 cp = 1
-w=3
+w = 8
 
 print(list(subnet[0].free_macs)[1:2])
 
 virt_conf = (
-    en.VMonG5kConf.from_settings(image="/home/chuang/images/large_debian02072025.qcow2")
+    en.VMonG5kConf.from_settings(image="/home/chuang/images/mqtt_base.qcow2")
     .add_machine(
         roles=["cp"],
         number=cp,
         undercloud=roles["role0"],
-        flavour_desc={"core": 16, "mem": 32768},
+        flavour_desc={"core": 16, "mem": 65536},
         macs=list(subnet[0].free_macs)[1:2],
     )
     .add_machine(
         roles=["member"],
         number=w,
         undercloud=roles["role0"],
-        flavour_desc={"core": 16, "mem": 32768},
+        flavour_desc={"core": 8, "mem": 32768},
         macs=list(subnet[0].free_macs)[2:w+2],
     ).finalize()
 )

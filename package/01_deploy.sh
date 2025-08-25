@@ -2,4 +2,4 @@
 
 ./script/ntp.sh
 
-./script/saveandcopy.sh
+# ./script/saveandcopy.sh
