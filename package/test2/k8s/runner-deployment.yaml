@@ -38,7 +38,7 @@ spec:
               value: mqtt_multi_node_light
             - name: SELECTED_SCENARIO
               value: mqtt_multi_node_light
-          image: docker.io/library/ps_bench runner:latest
+          image: docker.io/library/ps_bench-runner:latest
           name: runner
           volumeMounts:
             - mountPath: /app/out

@@ -20,7 +20,7 @@ while IFS= read -r ip_address; do
 done < "node_ip_all"
 
 while IFS= read -r ip_address; do
-  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" sudo apt-get install ntpd -y
+  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" sudo apt-get install ntp -y
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" mkdir -p /var/log/ntpsec
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" "nohup bash /root/ntp.sh > /var/log/ntpsec/ntp.log 2>&1 &"
 done < node_ip_all
@@ -100,8 +100,8 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 # cd /root/bench_ctrl
 cd /root/ps_bench/ps_bench
-docker compose --profile bench --build
-
+docker compose --profile bench build
+cd /root/mqtt/package
 docker save -o ps_bench-runner.tar ps_bench-runner:latest
 
 mkdir images
