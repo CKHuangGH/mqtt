@@ -35,16 +35,16 @@ spec:
             - name: RUN_TAG
               value: run1
             - name: SCENARIO
-              value: mqtt_multi_node_light
+              value: mqtt_single_node_stress
             - name: SELECTED_SCENARIO
-              value: mqtt_multi_node_light
+              value: mqtt_single_node_stress
           image: docker.io/library/ps_bench-runner:latest
+          imagePullPolicy: Never
           name: runner
           volumeMounts:
-            - mountPath: /app/out
-              name: runner-cm0
-      restartPolicy: Always
+            - name: out
+              mountPath: /app/out
       volumes:
-        - configMap:
-            name: runner-cm0
-          name: runner-cm0
+        - name: out
+          persistentVolumeClaim:
+            claimName: out-pvc

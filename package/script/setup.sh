@@ -14,6 +14,9 @@ for i in {2..10}; do
   echo "$new_ip" >> node_ip_all
 done
 
+part2=$(echo "$ip" | cut -d '.' -f2)
+part3=$(echo "$ip" | cut -d '.' -f3)
+
 while IFS= read -r ip_address; do
   scp -o StrictHostKeyChecking=no /root/mqtt/package/node_ip_all root@$ip_address:/root/
   scp -o StrictHostKeyChecking=no /root/mqtt/package/script/ntp.sh root@$ip_address:/root/
@@ -122,3 +125,12 @@ while IFS= read -r ip_address; do
     wait
   '" </dev/null &
 done < "node_ip_all"
+
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
+
+i=1
+for node in virtual-$part2-$part3-{3..10}; do
+  echo "Labeling $node as worker=$i"
+  kubectl label node $node worker=$i --overwrite
+  i=$((i+1))
+done
