@@ -48,14 +48,3 @@ spec:
         - name: out
           persistentVolumeClaim:
             claimName: out-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: out-pvc
-spec:
-  accessModes: ["ReadWriteOnce"]
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: local-path
