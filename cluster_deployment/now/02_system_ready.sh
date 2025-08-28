@@ -3,7 +3,8 @@
 manage=$(awk NR==1 node_list)
 
 git clone https://github.com/CKHuangGH/mqtt
-
+git clone https://github.com/DAMSlabUMBC/PS-Bench.git
+mv PS-Bench ps-bench
 rm -rf /home/chuang/.ssh/known_hosts
 
 for j in $(cat node_list)
@@ -11,7 +12,7 @@ do
     scp /home/chuang/.ssh/id_rsa root@$j:/root/.ssh
     scp -r ./mqtt root@$j:/root/
     # scp -r /home/chuang/bench_ctrl root@$j:/root/
-    scp -r /home/chuang/ps_bench root@$j:/root/
+    scp -r ./ps-bench root@$j:/root/
 done
 
 echo "wait for 30 secs"
