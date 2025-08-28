@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: broker
-          image: eclipse-mosquitto:2.0
+          image: eclipse-mosquitto:2.0.22
           ports:
             - containerPort: 1883
           volumeMounts:
@@ -26,3 +26,15 @@ spec:
         - name: config
           configMap:
             name: mosquitto-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: broker
+spec:
+  selector:
+    app: broker
+  ports:
+    - name: mqtt
+      port: 1883
+      targetPort: 1883
