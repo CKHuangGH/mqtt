@@ -17,7 +17,7 @@ with open("reserved_management_networks.json", "r") as f:
 subnet = networks["my_subnet"]
 
 cp = 1
-w = 8
+w = 6
 
 print(list(subnet[0].free_macs)[1:2])
 
