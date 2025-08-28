@@ -102,8 +102,9 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # cd /root/bench_ctrl
-cd /root/ps_bench/ps_bench
-docker compose --profile bench build
+cd /root/ps-bench/ps_bench
+docker build -t ps_bench-runner:latest .
+# docker compose --profile bench build
 cd /root/mqtt/package
 docker save -o ps_bench-runner.tar ps_bench-runner:latest
 
