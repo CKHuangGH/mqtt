@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 ip=$(cat node_list)
 > node_ip_all
 
-for i in {2..10}; do
+for i in {2..8}; do
   new_ip=$(echo "$ip" | sed "s/\.[0-9]*$/.${i}/")
   echo "$new_ip" >> node_ip_all
 done
