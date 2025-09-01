@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: runner01
+  labels:
+    app: runner01
+spec:
+  hostname: runner01
+  subdomain: benchnet
+  restartPolicy: Never
+  volumes:
+    - name: shared
+      persistentVolumeClaim:
+        claimName: runner01-shared-pvc
+  containers:
+    - name: runner01
+      image: docker.io/library/ps_bench-runner:latest
+      imagePullPolicy: Never
+      env:
+        - name: ADD_NODE_TO_SUFFIX
+          value: "false"
+        - name: BROKER_HOST
+          value: mqtt
+        - name: BROKER_PORT
+          value: "1883"
+        - name: NODE_BASE
+          value: runner1
+        - name: RELEASE_COOKIE
+          value: ps_bench_cookie
+        - name: SCEN_DIR
+          value: /app/configs/initial_tests/scenarios
+        - name: SELECTED_SCENARIO
+          value: mqtt_single_node_stress
+      volumeMounts:
+        - name: shared
+          mountPath: /app/out
+          subPath: out
+        - name: shared
+          mountPath: /app/results
+          subPath: result
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: runner01-shared-pvc
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path
