@@ -1,1 +1,0 @@
-kubectl create configmap mosquitto-config  --from-file=mosquitto.conf=/root/ps-bench/ps_bench/mosquitto.conf

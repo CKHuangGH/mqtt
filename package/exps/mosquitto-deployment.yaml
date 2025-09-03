@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: broker
-          image: eclipse-mosquitto:2.0.22
+          image: docker.io/library/mosquitto-with-exporter
           ports:
             - containerPort: 1883
           volumeMounts:

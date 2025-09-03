@@ -104,13 +104,16 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
 # cd /root/bench_ctrl
 cd /root/ps-bench/ps_bench
 docker build -t ps_bench-runner:latest .
+docker build -t mosquitto-with-exporter:latest -f Dockerfile.mosquitto .
 # docker compose --profile bench build
 cd /root/mqtt/package
 docker save -o ps_bench-runner.tar ps_bench-runner:latest
+docker save -o mosquitto-with-exporter.tar mosquitto-with-exporter:latest
 
 mkdir images
 
 mv ps_bench-runner.tar ./images/ps_bench-runner.tar
+mv mosquitto-with-exporter.tar ./images/mosquitto-with-exporter.tar
 
 while IFS= read -r ip_address; do
   echo "Send to $ip_address..."
@@ -130,7 +133,7 @@ done < "node_ip_all"
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 
 i=1
-for node in virtual-$part2-$part3-{3..10}; do
+for node in virtual-$part2-$part3-{3..8}; do
   echo "Labeling $node as worker=$i"
   kubectl label node $node worker=$i --overwrite
   i=$((i+1))
