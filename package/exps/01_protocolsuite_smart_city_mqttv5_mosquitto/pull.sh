@@ -8,10 +8,12 @@ for i in 1 2 3 4 5; do
   fi
 
   echo ">>> Copying $pod ..."
-  kubectl cp -c runnermqtt${i} "$pod":/app/out     "results/runnermqtt${i}-out"
+  # kubectl cp -c runnermqtt${i} "$pod":/app/out     "results/runnermqtt${i}-out"
   kubectl cp -c runnermqtt${i} "$pod":/app/results "results/runnermqtt${i}-results"
 done
 
 sleep 5
 
-scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.79.101:/home/chuang/results-protocolsuite_smart_city_mqttv5-mosquitto-$time
+scp -o StrictHostKeyChecking=no -r ./results/ chuang@172.16.79.101:/home/chuang/results-protocolsuite_smart_city_mqttv5-mosquitto-$time/
+
+rm -rf results/
