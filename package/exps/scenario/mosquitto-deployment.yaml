@@ -1,20 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: broker
+  name: mosquitto
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: broker
+      app: mosquitto
   template:
     metadata:
       labels:
-        app: broker
+        app: mosquitto
     spec:
       containers:
-        - name: broker
+        - name: mosquitto
           image: docker.io/library/mosquitto-with-exporter
+          imagePullPolicy: Never
           ports:
             - containerPort: 1883
           volumeMounts:
@@ -30,11 +31,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: broker
+  name: mosquitto
 spec:
   selector:
-    app: broker
+    app: mosquitto
   ports:
-    - name: mqtt
+    - name: mosquitto
       port: 1883
       targetPort: 1883
