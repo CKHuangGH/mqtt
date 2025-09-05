@@ -29,7 +29,7 @@ kubectl get pvc -o wide >> results/cluster_info.txt
 
 sleep 5
 
-ssh -o StrictHostKeyChecking=no chuang@172.16.79.101 "mkdir -p /home/chuang/protocolsuite_smart_home_mqttv5_mosquitto/"
-scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.79.101:/home/chuang/protocolsuite_smart_home_mqttv5_mosquitto/$time
+ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_home_mqttv5_mosquitto/"
+scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/protocolsuite_smart_home_mqttv5_mosquitto/$time
 
 rm -rf results/
