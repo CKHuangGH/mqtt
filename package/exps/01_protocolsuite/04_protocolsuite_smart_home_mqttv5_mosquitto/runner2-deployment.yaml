@@ -21,23 +21,27 @@ spec:
       containers:
         - env:
             - name: ADD_NODE_TO_SUFFIX
-              value: "true"
+              value: "false"
             - name: BROKER_HOST
               value: mosquitto
             - name: BROKER_PORT
               value: "1883"
+            - name: DEPLOY_DIR
+              value: /app/configs/builtin-test-suites/deployments
+            - name: DEVICE_DIR
+              value: /app/configs/builtin-test-suites/devices
             - name: DIST_MODE
               value: name
             - name: NODE_BASE
-              value: runner2
+              value: runner1
             - name: RELEASE_COOKIE
               value: ps_bench_cookie
             - name: RUN_TAG
-              value: mqtt_test
-            - name: SCEN_DIR
-              value: /app/configs/builtin-test-suites/testcases/cross-protocol/smart_home_mqttv5
-            - name: SELECTED_SCENARIO
+              value: test_run
+            - name: SCENARIO
               value: protocolsuite_smart_home_mqttv5
+            - name: SCEN_DIR
+              value: /app/configs/builtin-test-suites/testcases
           image: docker.io/library/ps_bench-runner:latest
           imagePullPolicy: Never
           name: runnermqtt2

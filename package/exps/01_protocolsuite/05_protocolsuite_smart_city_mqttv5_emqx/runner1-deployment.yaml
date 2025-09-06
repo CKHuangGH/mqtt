@@ -23,7 +23,7 @@ spec:
             - name: ADD_NODE_TO_SUFFIX
               value: "false"
             - name: BROKER_HOST
-              value: mosquitto
+              value: emqx
             - name: BROKER_PORT
               value: "1883"
             - name: DEPLOY_DIR
@@ -39,7 +39,7 @@ spec:
             - name: RUN_TAG
               value: test_run
             - name: SCENARIO
-              value: protocolsuite_smart_healthcare_mqttv5
+              value: protocolsuite_smart_city_mqttv5
             - name: SCEN_DIR
               value: /app/configs/builtin-test-suites/testcases
           image: docker.io/library/ps_bench-runner:latest

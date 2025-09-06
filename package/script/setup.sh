@@ -91,7 +91,7 @@ done
 
 # Add Docker's official GPG key:
 sudo apt-get update
-sudo apt-get install ca-certificates curl
+sudo apt-get install ca-certificates curl -y
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -111,15 +111,18 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
 cd /root/ps-bench/ps_bench
 docker build -t ps_bench-runner:latest .
 docker build -t mosquitto-with-exporter:latest -f Dockerfile.mosquitto .
-# docker compose --profile bench build
+docker build -t emqx-with-exporter:latest -f Dockerfile.emqx .
+
 cd /root/mqtt/package
 docker save -o ps_bench-runner.tar ps_bench-runner:latest
 docker save -o mosquitto-with-exporter.tar mosquitto-with-exporter:latest
+docker save -o emqx-with-exporter.tar emqx-with-exporter:latest
 
 mkdir images
 
 mv ps_bench-runner.tar ./images/ps_bench-runner.tar
 mv mosquitto-with-exporter.tar ./images/mosquitto-with-exporter.tar
+mv emqx-with-exporter.tar ./images/emqx-with-exporter.tar
 
 while IFS= read -r ip_address; do
   echo "Send to $ip_address..."
