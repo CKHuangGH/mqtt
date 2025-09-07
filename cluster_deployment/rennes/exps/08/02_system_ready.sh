@@ -13,6 +13,7 @@ do
     scp -r ./mqtt root@$j:/root/
     # scp -r /home/chuang/bench_ctrl root@$j:/root/
     scp -r ./ps-bench root@$j:/root/
+    scp -r /home/chuang/images-mqtt root@$j:/root/mqtt/package/images
 done
 
 echo "wait for 30 secs"
