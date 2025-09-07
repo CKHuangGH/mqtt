@@ -31,5 +31,10 @@ sleep 5
 
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_city_mqttv5_emqx/"
 scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/protocolsuite_smart_city_mqttv5_emqx/$time
-
+ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_city_mqttv5_emqx/$time/deployment_files/"
+scp -o StrictHostKeyChecking=no ./runner1-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_city_mqttv5_emqx/$time/deployment_files/runner1-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner2-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_city_mqttv5_emqx/$time/deployment_files/runner2-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner3-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_city_mqttv5_emqx/$time/deployment_files/runner3-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner4-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_city_mqttv5_emqx/$time/deployment_files/runner4-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner5-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_city_mqttv5_emqx/$time/deployment_files/runner5-deployment.yaml
 rm -rf results/

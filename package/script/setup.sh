@@ -1,6 +1,7 @@
 mkdir /var/log/ntpsec
 sudo apt-get install tcpdump -y
 sudo apt-get install ntp -y
+sudo apt-get install screen -y
 sudo systemctl stop ntp
 sudo ntpd -gq
 sudo systemctl start ntp

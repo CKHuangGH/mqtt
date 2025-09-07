@@ -33,7 +33,7 @@ spec:
             - name: DIST_MODE
               value: name
             - name: NODE_BASE
-              value: runner1
+              value: runner5
             - name: RELEASE_COOKIE
               value: ps_bench_cookie
             - name: RUN_TAG
