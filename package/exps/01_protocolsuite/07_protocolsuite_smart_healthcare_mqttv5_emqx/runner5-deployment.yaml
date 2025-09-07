@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: runnermqtt1
+  name: runnermqtt5
   labels:
     app: runner
 spec:
@@ -15,8 +15,8 @@ spec:
         app: runner
     spec:
       nodeSelector:
-        worker: "2"
-      hostname: runnermqtt1
+        worker: "6"
+      hostname: runnermqtt5
       subdomain: benchnet
       containers:
         - env:
@@ -39,12 +39,12 @@ spec:
             - name: RUN_TAG
               value: test_run
             - name: SCENARIO
-              value: protocolsuite_smart_factory_mqttv5
+              value: protocolsuite_smart_healthcare_mqttv5
             - name: SCEN_DIR
               value: /app/configs/builtin-test-suites/testcases
           image: docker.io/library/ps_bench-runner:latest
           imagePullPolicy: Never
-          name: runnermqtt1
+          name: runnermqtt5
           volumeMounts:
             - name: shared
               mountPath: /app/out
@@ -55,12 +55,12 @@ spec:
       volumes:
         - name: shared
           persistentVolumeClaim:
-            claimName: runnermqtt1-shared-pvc
+            claimName: runnermqtt5-shared-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: runnermqtt1-shared-pvc
+  name: runnermqtt5-shared-pvc
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:
