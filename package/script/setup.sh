@@ -108,27 +108,28 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
   -o Dpkg::Options::="--force-confold" \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# cd /root/bench_ctrl
-cd /root/ps-bench/ps_bench
-docker build -t ps_bench-runner:latest .
-docker build -t mosquitto-with-exporter:latest -f Dockerfile.mosquitto .
-docker build -t emqx-with-exporter:latest -f Dockerfile.emqx .
+# cd /root/ps-bench/ps_bench
+# docker build -t ps_bench-runner:latest .
+# docker build -t mosquitto-with-exporter:latest -f Dockerfile.mosquitto .
+# docker build -t emqx-with-exporter:latest -f Dockerfile.emqx .
 
-cd /root/mqtt/package
-docker save -o ps_bench-runner.tar ps_bench-runner:latest
-docker save -o mosquitto-with-exporter.tar mosquitto-with-exporter:latest
-docker save -o emqx-with-exporter.tar emqx-with-exporter:latest
+# cd /root/mqtt/package
+# docker save -o ps_bench-runner.tar ps_bench-runner:latest
+# docker save -o mosquitto-with-exporter.tar mosquitto-with-exporter:latest
+# docker save -o emqx-with-exporter.tar emqx-with-exporter:latest
 
-mkdir images
+# mkdir images
 
-mv ps_bench-runner.tar ./images/ps_bench-runner.tar
-mv mosquitto-with-exporter.tar ./images/mosquitto-with-exporter.tar
-mv emqx-with-exporter.tar ./images/emqx-with-exporter.tar
+# mv ps_bench-runner.tar ./images/ps_bench-runner.tar
+# mv mosquitto-with-exporter.tar ./images/mosquitto-with-exporter.tar
+# mv emqx-with-exporter.tar ./images/emqx-with-exporter.tar
+
+sed '1d' node_ip_all > node_ip_workers
 
 while IFS= read -r ip_address; do
   echo "Send to $ip_address..."
   scp -o StrictHostKeyChecking=no -r ./images/ root@$ip_address:/root/
-done < "node_ip_all"
+done < "node_ip_workers"
 
 while IFS= read -r ip_address; do
   echo "Import to $ip_address..."
@@ -138,7 +139,7 @@ while IFS= read -r ip_address; do
     done
     wait
   '" </dev/null &
-done < "node_ip_all"
+done < "node_ip_workers"
 
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 
