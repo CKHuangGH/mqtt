@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -euo pipefail
 
 # 用法: ./modify_duration.sh NEW_DURATION [ROOT_DIR]
@@ -13,22 +12,24 @@ if [[ -z "${NEW_DURATION}" ]]; then
   exit 1
 fi
 
-# 校验时间格式 HH:MM:SS
+# 校驗時間格式 HH:MM:SS
 if [[ ! "${NEW_DURATION}" =~ ^[0-9]{2}:[0-9]{2}:[0-9]{2}$ ]]; then
-  echo "❌ NEW_DURATION 必须是 HH:MM:SS 格式，例如 08:00:00" >&2
+  echo "❌ NEW_DURATION 必須是 HH:MM:SS 格式，例如 08:00:00" >&2
   exit 1
 fi
 
-OLD='duration = "03:10:00"'
+NEW="duration = \"${NEW_DURATION}\""
 
-echo "🔎 在 ${ROOT_DIR} 查找包含：${OLD}"
-echo "🔁 替换为：duration = \"${NEW_DURATION}\""
+echo "🔎 在 ${ROOT_DIR} 裡查找並替換所有 duration = \"??:??:??\""
+echo "   → ${NEW}"
 echo
 
-# 遍历匹配的文件并替换
-grep -RIl --exclude-dir='.git' -- "${OLD}" "${ROOT_DIR}" | while read -r f; do
-  echo "👉 修改: $f"
-  sed -i "s/duration = \"03:10:00\"/duration = \"${NEW_DURATION}\"/g" "$f"
+# 遞迴遍歷檔案，直接替換
+grep -RIl --exclude-dir='.git' -- 'duration = "' "${ROOT_DIR}" | while read -r f; do
+  echo "✏️  修改 $f"
+  # 匹配 duration = "HH:MM:SS" 並整行替換成新值
+  sed -i -E "s/duration = \"[0-9]{2}:[0-9]{2}:[0-9]{2}\"/${NEW}/g" "$f"
 done
 
-echo "✅ 全部完成"
+echo
+echo "✅ 替換完成"
