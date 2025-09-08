@@ -1,10 +1,11 @@
 mkdir /var/log/ntpsec
 sudo apt-get install tcpdump -y
-sudo apt-get install ntp -y
+# sudo apt-get install ntp -y
 sudo apt-get install screen -y
-sudo systemctl stop ntp
-sudo ntpd -gq
-sudo systemctl start ntp
+sudo apt-get install -y chrony
+# sudo systemctl stop ntp
+# sudo ntpd -gq
+# sudo systemctl start ntp
 export DEBIAN_FRONTEND=noninteractive
 
 ip=$(cat node_list)
@@ -24,8 +25,8 @@ while IFS= read -r ip_address; do
 done < "node_ip_all"
 
 while IFS= read -r ip_address; do
-  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" sudo apt-get install ntp -y
-  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" mkdir -p /var/log/ntpsec
+  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" sudo apt-get install -y chrony
+  # ssh -n -o StrictHostKeyChecking=no root@"$ip_address" mkdir -p /var/log/ntpsec
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" "nohup bash /root/ntp.sh > /var/log/ntpsec/ntp.log 2>&1 &"
 done < node_ip_all
 

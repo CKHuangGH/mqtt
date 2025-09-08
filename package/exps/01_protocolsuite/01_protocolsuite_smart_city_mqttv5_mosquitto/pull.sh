@@ -29,6 +29,22 @@ kubectl get pvc -o wide >> results/cluster_info.txt
 
 sleep 5
 
+NAMESPACE="default"
+LINES=1000   # You can change this to 500, 2000, or remove it to fetch full logs
+
+OUT_DIR="./results/pod_logs"
+mkdir -p "$OUT_DIR"
+
+# Get all Pod names in the namespace
+PODS=$(kubectl get pods -n $NAMESPACE --no-headers -o custom-columns=":metadata.name")
+
+for pod in $PODS; do
+    echo "🔹 Fetching logs from $pod ..."
+    kubectl logs -n $NAMESPACE --tail=$LINES $pod > "$OUT_DIR/${pod}.log" 2>&1
+done
+
+echo "✅ Logs have been saved to $OUT_DIR/"
+
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_city_mqttv5_mosquitto/"
 scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/protocolsuite_smart_city_mqttv5_mosquitto/$time
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_city_mqttv5_mosquitto/$time/deployment_files/"
