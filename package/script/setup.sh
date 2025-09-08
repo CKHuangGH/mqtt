@@ -151,3 +151,11 @@ for node in virtual-$part2-$part3-{3..8}; do
   kubectl label node $node worker=$i --overwrite
   i=$((i+1))
 done
+
+echo "=====Control Plane====="
+chronyc tracking > /root/chrony.txt
+
+while IFS= read -r ip_address; do
+  echo "===== $ip_address =====" >> /root/chrony.txt
+  ssh -n -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@"$ip_address" chronyc tracking >> /root/chrony.txt
+done < node_ip_workers
