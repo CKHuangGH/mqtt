@@ -66,12 +66,5 @@ logdir /var/log/chrony
 EOF
 fi
 
-
 sudo systemctl enable chrony
 sudo systemctl restart chrony
-
-
-chronyc tracking
-chronyc sources -v
-
-echo "✅ Chrony setup complete!"
