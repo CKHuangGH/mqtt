@@ -1,5 +1,4 @@
 mkdir /var/log/ntpsec
-mkdir /var/log/chrony
 sudo apt-get install tcpdump -y
 # sudo apt-get install ntp -y
 sudo apt-get install screen -y
@@ -26,8 +25,8 @@ while IFS= read -r ip_address; do
 done < "node_ip_all"
 
 while IFS= read -r ip_address; do
-  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" sudo apt-get install -y chrony
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" mkdir /var/log/chrony
+  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" sudo apt-get install -y chrony
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" "nohup bash /root/ntp.sh 2>&1 &"
 done < node_ip_all
 
@@ -152,8 +151,8 @@ for node in virtual-$part2-$part3-{3..8}; do
   i=$((i+1))
 done
 
-echo "=====Control Plane====="
-chronyc tracking > /root/chrony.txt
+echo "=====Control Plane=====" >> /root/chrony.txt
+chronyc tracking >> /root/chrony.txt
 
 while IFS= read -r ip_address; do
   echo "===== $ip_address =====" >> /root/chrony.txt
