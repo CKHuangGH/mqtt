@@ -44,8 +44,8 @@ for pod in $PODS; do
 done
 
 mv /root/chrony.txt ./results/chrony.txt
-sleep 5
 
+sleep 5
 
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_city_mqttv5_mosquitto/"
 scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/protocolsuite_smart_city_mqttv5_mosquitto/$time
