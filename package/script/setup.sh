@@ -2,7 +2,7 @@ mkdir /var/log/ntpsec
 sudo apt-get install tcpdump -y
 # sudo apt-get install ntp -y
 sudo apt-get install screen -y
-sudo apt-get install -y chrony
+# sudo apt-get install -y chrony
 # sudo systemctl stop ntp
 # sudo ntpd -gq
 # sudo systemctl start ntp
