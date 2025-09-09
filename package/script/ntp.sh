@@ -23,23 +23,11 @@ if [[ -z "$LOCAL_IP" ]]; then
 fi
 echo "Local IP: $LOCAL_IP"
 
-
-if command -v apt-get >/dev/null 2>&1; then
-  sudo apt-get update -y
-  sudo apt-get install -y chrony
-elif command -v dnf >/dev/null 2>&1; then
-  sudo dnf install -y chrony
-elif command -v yum >/dev/null 2>&1; then
-  sudo yum install -y chrony
-fi
-
 CHRONY_CONF="/etc/chrony/chrony.conf"
-
 
 if [[ -f "$CHRONY_CONF" ]]; then
   sudo cp -p "$CHRONY_CONF" "${CHRONY_CONF}.orig-${TIMESTAMP}"
 fi
-
 
 if [[ "$LOCAL_IP" == "$MGMT_IP" ]]; then
   echo "⚙️ Configuring as Management Node (NTP Server)"

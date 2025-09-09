@@ -158,12 +158,9 @@ SRC_FILE="./node_ip_workers"
 BASE_DIR="/root/mqtt/package/exps"
 
 # Find all leaf directories under exps and copy the file
-find "$BASE_DIR" -type d -exec sh -c '
-  for d do
-    # if no subdirectories inside, then it is a leaf
-    if ! find "$d" -mindepth 1 -type d | grep -q .; then
-      echo "Copying to: $d"
-      cp "$SRC_FILE" "$d/"
+for dir in $(find "$BASE_DIR" -type d); do
+    if ! find "$dir" -mindepth 1 -type d | grep -q .; then
+        echo "Copying to: $dir"
+        cp "$SRC_FILE" "$dir/"
     fi
-  done
-' sh {} +
+done
