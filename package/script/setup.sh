@@ -151,27 +151,6 @@ for node in virtual-$part2-$part3-{3..8}; do
   i=$((i+1))
 done
 
-
-# File to copy
-SRC_FILE="/path/to/myfile.txt"
-
-# Root directory containing exps/01 to exps/07
-BASE_DIR="/root/mqtt/package/exps"
-
-# Loop through folders 01 to 07
-for i in $(seq -w 1 7); do
-    TARGET_DIR="$BASE_DIR/$i"
-
-    # Find all directories under the target
-    find "$TARGET_DIR" -type d | while read -r dir; do
-        # Check if this directory has no subdirectories (leaf directory)
-        if [ -z "$(find "$dir" -mindepth 1 -type d)" ]; then
-            echo "Copying to: $dir"
-            cp "$SRC_FILE" "$dir/"
-        fi
-    done
-done
-
 # File you want to copy
 SRC_FILE="./node_ip_workers"
 

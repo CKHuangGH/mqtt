@@ -43,14 +43,14 @@ for pod in $PODS; do
     kubectl logs -n $NAMESPACE --tail=$LINES $pod > "$OUT_DIR/${pod}.log" 2>&1
 done
 
-sudo systemctl status chrony >> /root/chrony.txt
-echo "=====Control Plane=====" >> /root/chrony.txt
-chronyc tracking >> /root/chrony.txt
+sudo systemctl status chrony >> results/chrony.txt
+echo "=====Control Plane=====" >> results/chrony.txt
+chronyc tracking >> results/chrony.txt
 
 while IFS= read -r ip_address; do
-  echo "===== $ip_address =====" >> /root/chrony.txt
-  ssh -n -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@"$ip_address" chronyc tracking >> /root/chrony.txt
-  ssh -n -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@"$ip_address" sudo systemctl status chrony >> /root/chrony.txt
+  echo "===== $ip_address =====" >> results/chrony.txt
+  ssh -n -o StrictHostKeyChecking=no -o ConnectTimeout=10 root@"$ip_address" chronyc tracking >> results/chrony.txt
+  ssh -n -o StrictHostKeyChecking=no -o ConnectTimeout=10 root@"$ip_address" sudo systemctl status chrony >> results/chrony.txt
 done < node_ip_workers
 
 sleep 5
