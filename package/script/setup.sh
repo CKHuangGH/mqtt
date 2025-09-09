@@ -151,10 +151,40 @@ for node in virtual-$part2-$part3-{3..8}; do
   i=$((i+1))
 done
 
-echo "=====Control Plane=====" >> /root/chrony.txt
-chronyc tracking >> /root/chrony.txt
 
-while IFS= read -r ip_address; do
-  echo "===== $ip_address =====" >> /root/chrony.txt
-  ssh -n -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@"$ip_address" chronyc tracking >> /root/chrony.txt
-done < node_ip_workers
+# File to copy
+SRC_FILE="/path/to/myfile.txt"
+
+# Root directory containing exps/01 to exps/07
+BASE_DIR="/root/mqtt/package/exps"
+
+# Loop through folders 01 to 07
+for i in $(seq -w 1 7); do
+    TARGET_DIR="$BASE_DIR/$i"
+
+    # Find all directories under the target
+    find "$TARGET_DIR" -type d | while read -r dir; do
+        # Check if this directory has no subdirectories (leaf directory)
+        if [ -z "$(find "$dir" -mindepth 1 -type d)" ]; then
+            echo "Copying to: $dir"
+            cp "$SRC_FILE" "$dir/"
+        fi
+    done
+done
+
+# File you want to copy
+SRC_FILE="./node_ip_workers"
+
+# Root experiments folder
+BASE_DIR="/root/mqtt/package/exps"
+
+# Find all leaf directories under exps and copy the file
+find "$BASE_DIR" -type d -exec sh -c '
+  for d do
+    # if no subdirectories inside, then it is a leaf
+    if ! find "$d" -mindepth 1 -type d | grep -q .; then
+      echo "Copying to: $d"
+      cp "$SRC_FILE" "$d/"
+    fi
+  done
+' sh {} +
