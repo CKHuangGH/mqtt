@@ -12,7 +12,7 @@ name = "mqtt-1-now-5pm-rennes-"
 clusters = "paradoxe"
 site = "rennes"
 duration = "61:00:00"
-reservation="2025-09-12 17:01:00"
+reservation_time ="2025-09-12 17:01:00"
 name_job = name + clusters
 prod_network = en.G5kNetworkConf(type="prod", roles=["my_network"], site=site)
 
