@@ -44,7 +44,12 @@ helm install cilium cilium/cilium \
   --set operator.tolerations[0].key=node-role.kubernetes.io/control-plane \
   --set operator.tolerations[0].operator=Exists \
   --set operator.tolerations[0].effect=NoSchedule \
-  --set multicast.enabled=true
+  --set operator.tolerations[1].key=node.kubernetes.io/not-ready \
+  --set operator.tolerations[1].operator=Exists \
+  --set operator.tolerations[1].effect=NoSchedule \
+  --set operator.tolerations[2].key=node.kubernetes.io/unreachable \
+  --set operator.tolerations[2].operator=Exists \
+  --set operator.tolerations[2].effect=NoExecute
 
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=amd64
@@ -53,8 +58,6 @@ curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/d
 sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
-
-cilium multicast add --group-ip 239.255.0.1
 
 for ((i=30; i>0; i--)); do
     printf "\r%3d" $i
