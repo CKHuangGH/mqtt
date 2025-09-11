@@ -12,14 +12,7 @@ name = "mqtt-1-now-5pm-rennes-"
 clusters = "paradoxe"
 site = "rennes"
 duration = "61:00:00"
-paris = ZoneInfo("Europe/Paris")
-now_paris = datetime.now(paris)
-target_local = datetime.combine(now_paris.date(), time(17, 0), tzinfo=paris)
-if target_local <= now_paris:
-    target_local += timedelta(days=1)
-
-today = target_local.strftime("%Y-%m-%d")
-reservation_time = target_local.strftime("%Y-%m-%d %H:%M:%S")
+reservation="2025-09-12 17:01:00"
 name_job = name + clusters
 prod_network = en.G5kNetworkConf(type="prod", roles=["my_network"], site=site)
 
