@@ -49,6 +49,7 @@ for ((i=30; i>0; i--)); do
     printf "\r%3d" $i
     sleep 1
 done
+
 kubectl -n kube-system patch deploy coredns --type=merge -p '{
   "spec": { "template": { "spec": {
     "nodeSelector": { "node-role.kubernetes.io/control-plane": "" },
@@ -143,6 +144,15 @@ while IFS= read -r ip_address; do
 done < "node_ip_workers"
 
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
+
+kubectl -n local-path-storage patch deploy local-path-provisioner --type=merge -p '{
+  "spec": { "template": { "spec": {
+    "nodeSelector": { "node-role.kubernetes.io/control-plane": "" },
+    "tolerations": [
+      { "key":"node-role.kubernetes.io/control-plane","operator":"Exists","effect":"NoSchedule" }
+    ]
+  } } }
+}'
 
 i=1
 for node in virtual-$part2-$part3-{3..8}; do

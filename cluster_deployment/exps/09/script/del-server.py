@@ -7,10 +7,10 @@ from datetime import datetime
 en.set_config(ansible_forks=100)
 
 # === Grid'5000 reservation settings ===
-name = "mqtt-1-now-test-rennes-"
+name = "mqtt-9-now-long-rennes"
 clusters = "paradoxe"
-site = "nancy"
-duration = "04:30:00"
+site = "rennes"
+duration = "55:00:00"
 today = datetime.now().strftime("%Y-%m-%d")
 reservation_time = today + " 19:01:00"
 name_job = name + clusters

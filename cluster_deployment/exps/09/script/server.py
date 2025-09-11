@@ -7,10 +7,10 @@ from datetime import datetime
 en.set_config(ansible_forks=100)
 
 # === Grid'5000 reservation settings ===
-name = "mqtt-1-now-test-rennes-"
+name = "mqtt-9-now-long-rennes"
 clusters = "paradoxe"
-site = "nancy"
-duration = "04:30:00"
+site = "rennes"
+duration = "16:00:00"
 today = datetime.now().strftime("%Y-%m-%d")
 reservation_time = today + " 19:01:00"
 name_job = name + clusters
@@ -26,7 +26,27 @@ conf = (
     .add_machine(
     roles=["role0"], cluster=clusters, nodes=1, primary_network=prod_network
     )
+    .add_machine(
+    roles=["role1"], cluster=clusters, nodes=1, primary_network=prod_network
+    )
     .finalize()
 )
 provider = en.G5k(conf)
-provider.destroy()
+roles, networks = provider.init()
+roles = en.sync_info(roles, networks)
+print(provider)
+print(roles)
+print(networks)
+
+# === Save physical host and network info for reuse ===
+with open("reserved_management.json", "w") as f:
+    f.write(jsonpickle.encode(roles))
+
+with open("reserved_management_networks.json", "w") as f:
+    f.write(jsonpickle.encode(networks))
+    
+for i in range(10, 0, -1):
+    print(f"Remaining: {i} seconds")
+    time.sleep(1)
+
+print("Reservation management: physical nodes and network configuration.")
