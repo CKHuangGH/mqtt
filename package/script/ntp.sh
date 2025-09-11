@@ -3,14 +3,14 @@ TIMESTAMP="$(date +%Y%m%d%H%M%S)"
 
 
 if [[ ! -f "$NODE_LIST" ]]; then
-  echo "❌ Error: $NODE_LIST not found" >&2
+  echo "Error: $NODE_LIST not found" >&2
   exit 1
 fi
 
 
 MGMT_IP=$(head -n 1 "$NODE_LIST" | awk '{print $1}')
 if [[ -z "$MGMT_IP" ]]; then
-  echo "❌ Error: First line of $NODE_LIST is empty" >&2
+  echo "Error: First line of $NODE_LIST is empty" >&2
   exit 1
 fi
 echo "Management IP: $MGMT_IP"
@@ -18,7 +18,7 @@ echo "Management IP: $MGMT_IP"
 
 LOCAL_IP=$(hostname -I | awk '{print $1}')
 if [[ -z "$LOCAL_IP" ]]; then
-  echo "❌ Error: Failed to get local IP" >&2
+  echo "Error: Failed to get local IP" >&2
   exit 1
 fi
 echo "Local IP: $LOCAL_IP"
@@ -30,7 +30,7 @@ if [[ -f "$CHRONY_CONF" ]]; then
 fi
 
 if [[ "$LOCAL_IP" == "$MGMT_IP" ]]; then
-  echo "⚙️ Configuring as Management Node (NTP Server)"
+  echo "Configuring as Management Node (NTP Server)"
   sudo tee "$CHRONY_CONF" > /dev/null <<EOF
 # chrony.conf - Management Node
 driftfile /var/lib/chrony/chrony.drift
@@ -44,7 +44,7 @@ local stratum 10
 logdir /var/log/chrony
 EOF
 else
-  echo "⚙️ Configuring as Client (syncing from $MGMT_IP)"
+  echo "Configuring as Client (syncing from $MGMT_IP)"
   sudo tee "$CHRONY_CONF" > /dev/null <<EOF
 # chrony.conf - Client
 driftfile /var/lib/chrony/chrony.drift

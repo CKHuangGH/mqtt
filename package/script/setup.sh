@@ -26,7 +26,7 @@ done < "node_ip_all"
 
 while IFS= read -r ip_address; do
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" mkdir /var/log/chrony
-  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" sudo apt-get install -y chrony
+  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" sudo apt-get install -y chrony=4.3*
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" "nohup bash /root/ntp.sh 2>&1 &"
 done < node_ip_all
 
