@@ -2,7 +2,8 @@ import jsonpickle
 from enoslib.api import generate_inventory, run_ansible
 import enoslib as en
 import time
-from datetime import datetime
+from datetime import datetime, time, timezone
+from zoneinfo import ZoneInfo
 
 en.set_config(ansible_forks=100)
 
@@ -11,8 +12,10 @@ name = "mqtt-1-now-5pm-rennes-"
 clusters = "paradoxe"
 site = "rennes"
 duration = "61:00:00"
-today = datetime.now().strftime("%Y-%m-%d")
-reservation_time = today + " 17:01:00"
+paris = ZoneInfo("Europe/Paris")
+now_paris = datetime.now(paris)
+target_local = datetime.combine(now_paris.date(), time(17, 0), tzinfo=paris)
+reservation_time = int(target_local.astimezone(timezone.utc).timestamp())
 name_job = name + clusters
 prod_network = en.G5kNetworkConf(type="prod", roles=["my_network"], site=site)
 
