@@ -9,7 +9,7 @@ en.set_config(ansible_forks=100)
 # === Grid'5000 reservation settings ===
 name = "mqtt-1-now-test-rennes-"
 clusters = "paradoxe"
-site = "nancy"
+site = "rennes"
 duration = "04:30:00"
 today = datetime.now().strftime("%Y-%m-%d")
 reservation_time = today + " 19:01:00"
