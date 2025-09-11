@@ -2,7 +2,7 @@ import jsonpickle
 from enoslib.api import generate_inventory, run_ansible
 import enoslib as en
 import time
-from datetime import datetime, time, timezone
+from datetime import datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
 en.set_config(ansible_forks=100)
@@ -15,7 +15,11 @@ duration = "61:00:00"
 paris = ZoneInfo("Europe/Paris")
 now_paris = datetime.now(paris)
 target_local = datetime.combine(now_paris.date(), time(17, 0), tzinfo=paris)
-reservation_time = int(target_local.astimezone(timezone.utc).timestamp())
+if target_local <= now_paris:
+    target_local += timedelta(days=1)
+
+today = target_local.strftime("%Y-%m-%d")
+reservation_time = target_local.strftime("%Y-%m-%d %H:%M:%S")
 name_job = name + clusters
 prod_network = en.G5kNetworkConf(type="prod", roles=["my_network"], site=site)
 
