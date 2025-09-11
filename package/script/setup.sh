@@ -107,22 +107,22 @@ done
 
 
 # Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl -y
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+# sudo apt-get update
+# sudo apt-get install ca-certificates curl -y
+# sudo install -m 0755 -d /etc/apt/keyrings
+# sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+# sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# echo \
+#   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+#   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+#   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-sudo apt-get update
+# sudo apt-get update
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  -o Dpkg::Options::="--force-confold" \
-  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+#   -o Dpkg::Options::="--force-confold" \
+#   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # cd /root/ps-bench/ps_bench
 # docker build -t ps_bench-runner:latest .
@@ -188,3 +188,10 @@ for dir in $(find "$BASE_DIR" -type d); do
         cp "$SRC_FILE" "$dir/"
     fi
 done
+
+cilium config set multicast-enabled true
+for ((i=60; i>0; i--)); do
+    printf "\r%3d" $i
+    sleep 1
+done
+cilium multicast add --group-ip 239.255.0.1
