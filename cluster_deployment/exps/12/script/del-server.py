@@ -7,7 +7,7 @@ from datetime import datetime
 en.set_config(ansible_forks=100)
 
 # === Grid'5000 reservation settings ===
-name = "mqtt-10-now-long-rennes"
+name = "mqtt-12-now-long-rennes"
 clusters = "paradoxe"
 site = "rennes"
 duration = "55:00:00"
