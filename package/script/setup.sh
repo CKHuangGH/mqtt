@@ -37,13 +37,14 @@ wait
 helm repo add cilium https://helm.cilium.io/
 helm repo update
 helm install cilium cilium/cilium \
-  --version 1.18.1 \
+  --version 1.17.6 \
   --namespace kube-system \
   --set operator.replicas=1 \
   --set operator.nodeSelector."node-role\.kubernetes\.io/control-plane"="" \
   --set operator.tolerations[0].key=node-role.kubernetes.io/control-plane \
   --set operator.tolerations[0].operator=Exists \
-  --set operator.tolerations[0].effect=NoSchedule
+  --set operator.tolerations[0].effect=NoSchedule \
+  --set multicast.enabled=true
 
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=amd64
