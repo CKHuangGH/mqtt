@@ -190,7 +190,7 @@ for dir in $(find "$BASE_DIR" -type d); do
 done
 
 cilium config set multicast-enabled true
-for ((i=120; i>0; i--)); do
+for ((i=150; i>0; i--)); do
     printf "\r%3d" $i
     sleep 1
 done
