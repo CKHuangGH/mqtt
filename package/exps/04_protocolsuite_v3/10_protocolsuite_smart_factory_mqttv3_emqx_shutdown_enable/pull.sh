@@ -55,12 +55,12 @@ done < node_ip_workers
 
 sleep 5
 
-ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_factory_mqttv3_emqx/"
-scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx/$time
-ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_factory_mqttv3_emqx/$time/deployment_files/"
-scp -o StrictHostKeyChecking=no ./runner1-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx/$time/deployment_files/runner1-deployment.yaml
-scp -o StrictHostKeyChecking=no ./runner2-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx/$time/deployment_files/runner2-deployment.yaml
-scp -o StrictHostKeyChecking=no ./runner3-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx/$time/deployment_files/runner3-deployment.yaml
-scp -o StrictHostKeyChecking=no ./runner4-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx/$time/deployment_files/runner4-deployment.yaml
-scp -o StrictHostKeyChecking=no ./runner5-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx/$time/deployment_files/runner5-deployment.yaml
+ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_factory_mqttv3_emqx_shutdown_enable/"
+scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx_shutdown_enable/$time
+ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/protocolsuite_smart_factory_mqttv3_emqx_shutdown_enable/$time/deployment_files/"
+scp -o StrictHostKeyChecking=no ./runner1-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx_shutdown_enable/$time/deployment_files/runner1-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner2-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx_shutdown_enable/$time/deployment_files/runner2-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner3-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx_shutdown_enable/$time/deployment_files/runner3-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner4-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx_shutdown_enable/$time/deployment_files/runner4-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner5-deployment.yaml chuang@172.16.111.106:/home/chuang/protocolsuite_smart_factory_mqttv3_emqx_shutdown_enable/$time/deployment_files/runner5-deployment.yaml
 rm -rf results/
