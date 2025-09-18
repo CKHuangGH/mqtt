@@ -1,0 +1,8 @@
+mochi: v1
+kind: Service
+metadata:
+  name: benchnet
+spec:
+  clusterIP: None
+  selector:
+    app: runner
