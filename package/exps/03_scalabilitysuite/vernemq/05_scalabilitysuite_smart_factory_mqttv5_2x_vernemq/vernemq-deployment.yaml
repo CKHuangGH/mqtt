@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vernemq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vernemq
+  template:
+    metadata:
+      labels:
+        app: vernemq
+    spec:
+      nodeSelector:
+        worker: "1"
+      containers:
+        - name: vernemq
+          image: docker.io/library/vernemq-with-exporter
+          imagePullPolicy: Never
+          ports:
+            - name: mqtt
+              containerPort: 1883
+            - name: metrics
+              containerPort: 9100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vernemq
+spec:
+  selector:
+    app: vernemq
+  ports:
+    - name: vernemq
+      port: 1883
+      targetPort: 1883
+    - name: metrics
+      port: 9100
+      targetPort: 9100

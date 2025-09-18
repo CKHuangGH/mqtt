@@ -172,7 +172,7 @@ while IFS= read -r ip_address; do
     done
     wait
   '" </dev/null &
-done < "node_ip_workers"
+done < "node_ip_runner"
 
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 

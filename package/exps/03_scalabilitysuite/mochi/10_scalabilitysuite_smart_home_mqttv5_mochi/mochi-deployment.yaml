@@ -23,9 +23,6 @@ spec:
               containerPort: 1883
             - name: metrics
               containerPort: 9100
-          env:
-            - name: mochi_FORCE_SHUTDOWN__ENABLE
-              value: "false"
 ---
 apiVersion: v1
 kind: Service
