@@ -141,16 +141,33 @@ done
 # mv emqx-with-exporter.tar ./images/emqx-with-exporter.tar
 
 sed '1d' node_ip_all > node_ip_workers
+head -n 1 node_ip_workers > node_ip_one
+sed '1d' node_ip_workers > node_ip_runner
 
 while IFS= read -r ip_address; do
   echo "Send to $ip_address..."
-  scp -o StrictHostKeyChecking=no -r ./images/ root@$ip_address:/root/
-done < "node_ip_workers"
+  scp -o StrictHostKeyChecking=no -r ./images-broker/ root@$ip_address:/root/
+done < "node_ip_one"
+
+while IFS= read -r ip_address; do
+  echo "Send to $ip_address..."
+  scp -o StrictHostKeyChecking=no -r ./images-runner/ root@$ip_address:/root/
+done < "node_ip_runner"
 
 while IFS= read -r ip_address; do
   echo "Import to $ip_address..."
   ssh -o StrictHostKeyChecking=no root@$ip_address bash -c "'
-    for image in ./images/*.tar; do
+    for image in ./images-broker/*.tar; do
+      ctr -n k8s.io images import \"\$image\"  &
+    done
+    wait
+  '" </dev/null &
+done < "node_ip_one"
+
+while IFS= read -r ip_address; do
+  echo "Import to $ip_address..."
+  ssh -o StrictHostKeyChecking=no root@$ip_address bash -c "'
+    for image in ./images-runner/*.tar; do
       ctr -n k8s.io images import \"\$image\"  &
     done
     wait
