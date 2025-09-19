@@ -57,7 +57,7 @@ spec:
           persistentVolumeClaim:
             claimName: runnermqtt4-shared-pvc
 ---
-vernemq: v1
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: runnermqtt4-shared-pvc

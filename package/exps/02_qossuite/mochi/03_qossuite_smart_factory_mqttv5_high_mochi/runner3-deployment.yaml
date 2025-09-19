@@ -57,7 +57,7 @@ spec:
           persistentVolumeClaim:
             claimName: runnermqtt3-shared-pvc
 ---
-mochi: v1
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: runnermqtt3-shared-pvc
