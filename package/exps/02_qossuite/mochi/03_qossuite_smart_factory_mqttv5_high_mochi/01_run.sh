@@ -1,7 +1,7 @@
 #!/bin/bash
 
 for (( times=0; times<7; times++ )); do
-    kubectl apply -f nanomq-deployment.yaml
+    kubectl apply -f mochi-deployment.yaml
     sleep 2
     kubectl apply -f runner-service.yaml
     sleep 2
@@ -21,7 +21,7 @@ for (( times=0; times<7; times++ )); do
     done
     bash ./pull.sh $times
     sleep 2
-    kubectl delete -f nanomq-deployment.yaml
+    kubectl delete -f mochi-deployment.yaml
     sleep 2
     kubectl delete -f runner-service.yaml
     sleep 2

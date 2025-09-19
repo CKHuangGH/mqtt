@@ -23,7 +23,7 @@ spec:
             - name: ADD_NODE_TO_SUFFIX
               value: "false"
             - name: BROKER_HOST
-              value: nanomq
+              value: mochi
             - name: BROKER_PORT
               value: "1883"
             - name: DEPLOY_DIR
