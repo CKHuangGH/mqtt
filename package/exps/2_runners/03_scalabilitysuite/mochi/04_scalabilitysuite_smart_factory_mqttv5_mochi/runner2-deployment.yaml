@@ -39,7 +39,7 @@ spec:
             - name: RUN_TAG
               value: test_run
             - name: SCENARIO
-              value: scalabilitysuite_smart_factory_mqttv5
+              value: scalabilitysuite_smart_factory_mqttv5_2_node
             - name: SCEN_DIR
               value: /app/configs/builtin-test-suites/testcases
           image: docker.io/library/ps_bench-runner:latest

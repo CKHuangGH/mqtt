@@ -1,6 +1,6 @@
 time=$1
 mkdir -p results
-for i in 1 2 3 4 5; do
+for i in 1 2; do
   pod=$(kubectl get pods -o name | grep "^pod/runnermqtt${i}-" | head -n1 | cut -d/ -f2)
   if [ -z "$pod" ]; then
     echo "!! Pod for runnermqtt${i} not found, skipping"
