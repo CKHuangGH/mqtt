@@ -10,7 +10,7 @@ en.set_config(ansible_forks=100)
 name = "mqtt-7-now-long-rennes"
 clusters = "paradoxe"
 site = "rennes"
-duration = "16:00:00"
+duration = "03:10:00"
 today = datetime.now().strftime("%Y-%m-%d")
 reservation_time = today + " 19:01:00"
 name_job = name + clusters
@@ -29,7 +29,9 @@ conf = (
     .add_machine(
     roles=["role1"], cluster=clusters, nodes=1, primary_network=prod_network
     )
-    .finalize()
+    .add_machine(
+    roles=["role2"], cluster=clusters, nodes=1, primary_network=prod_network
+    ).finalize()
 )
 provider = en.G5k(conf)
 roles, networks = provider.init()

@@ -29,7 +29,9 @@ conf = (
     .add_machine(
     roles=["role1"], cluster=clusters, nodes=1, primary_network=prod_network
     )
-    .finalize()
+    .add_machine(
+    roles=["role2"], cluster=clusters, nodes=1, primary_network=prod_network
+    ).finalize()
 )
 provider = en.G5k(conf)
 roles, networks = provider.init()

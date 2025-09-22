@@ -19,6 +19,7 @@ subnet = networks["my_subnet"]
 cp = 1
 w1 = 3
 w2 = 3
+w3 = 3
 print(list(subnet[0].free_macs)[1:2])
 
 virt_conf = (
@@ -43,6 +44,13 @@ virt_conf = (
         undercloud=roles["role1"],
         flavour_desc={"core": 8, "mem": 32768},
         macs=list(subnet[0].free_macs)[w1+2:w1+w2+2],
+    )
+    .add_machine(
+        roles=["member"],
+        number=w3,
+        undercloud=roles["role2"],
+        flavour_desc={"core": 8, "mem": 32768},
+        macs=list(subnet[0].free_macs)[w1+w2+2:w1+w2+w3+2],
     ).finalize()
 )
 
