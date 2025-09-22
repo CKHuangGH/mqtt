@@ -19,7 +19,7 @@ subnet = networks["my_subnet"]
 cp = 1
 w1 = 3
 w2 = 3
-W3 = 3
+w3 = 3
 print(list(subnet[0].free_macs)[1:2])
 
 virt_conf = (
