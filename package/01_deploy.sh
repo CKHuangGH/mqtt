@@ -1,1 +1,1 @@
-./script/setup8.sh
+./script/setup.sh
