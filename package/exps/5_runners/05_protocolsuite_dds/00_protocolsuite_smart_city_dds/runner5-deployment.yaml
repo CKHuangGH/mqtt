@@ -18,8 +18,6 @@ spec:
         worker: "6"
       hostname: runnermqtt5
       subdomain: benchnet
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - env:
             - name: ADD_NODE_TO_SUFFIX
@@ -50,6 +48,30 @@ spec:
             - name: shared
               mountPath: /app/results
               subPath: result
+        - name: igmp-keeper
+          image: nicolaka/netshoot:latest
+          imagePullPolicy: IfNotPresent
+          command: ["sh","-lc"]
+          args:
+            - |
+              set -e
+              IP=$(ip -4 -o addr show dev eth0 | awk '{print $4}' | cut -d/ -f1)
+              echo "[igmp-keeper] iface=$IP group=239.255.0.1"
+              term(){ kill $PID 2>/dev/null || true; exit 0; }; trap term TERM INT
+              while true; do
+                # 不佔用 RTPS 埠（7650/7660），用隨機高埠維持 membership
+                socat -u UDP4-RECVFROM:0,ip-add-membership=239.255.0.1:$IP,so-reuseaddr - &
+                PID=$!
+                sleep 300
+                kill $PID 2>/dev/null || true
+              done
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
       volumes:
         - name: shared
           persistentVolumeClaim:
