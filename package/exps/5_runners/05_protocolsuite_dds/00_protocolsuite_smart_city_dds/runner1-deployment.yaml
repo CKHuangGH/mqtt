@@ -18,38 +18,6 @@ spec:
         worker: "2"
       hostname: runnermqtt1
       subdomain: benchnet
-      initContainers:
-        - name: sysctl-tune
-          image: alpine:3.20
-          imagePullPolicy: IfNotPresent
-          securityContext:
-            privileged: true
-            runAsUser: 0
-          command: ["sh","-lc"]
-          args:
-            - |
-              set -u
-              apk add --no-cache procps >/dev/null 2>&1 || true
-
-              show() {
-                for k in net/ipv4/udp_rmem_min net/ipv4/udp_wmem_min; do
-                  p=/proc/sys/$(echo $k | tr . /)
-                  printf "%s=" "$k"; [ -f "$p" ] && cat "$p" || echo NA
-                done
-              }
-
-              setv() {
-                k=$1; v=$2; p=/proc/sys/$(echo $k | tr . /)
-                sysctl -w $k=$v >/dev/null 2>&1 || true
-                [ -f "$p" ] && echo $v > "$p" 2>/dev/null || true
-              }
-
-              echo "=== before ==="; show
-              # 將最小收/發緩衝提高到 64MiB（與 node 上限 64MiB 對齊）
-              setv net.ipv4.udp_rmem_min 67108864
-              setv net.ipv4.udp_wmem_min 67108864
-              echo "=== after ==="; show
-              echo "sysctl-tune done."
       containers:
         - env:
             - name: ADD_NODE_TO_SUFFIX
