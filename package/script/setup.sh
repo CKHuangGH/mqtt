@@ -28,11 +28,12 @@ while IFS= read -r ip_address; do
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" mkdir /var/log/chrony
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" sudo apt-get install -y chrony=4.3*
   ssh -n -o StrictHostKeyChecking=no root@"$ip_address" "nohup bash /root/ntp.sh 2>&1 &"
-  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" "sudo sysctl -w net.core.rmem_max=134217728 \
-      net.core.wmem_max=134217728 \
-      net.core.rmem_default=8388608 \
-      net.core.wmem_default=2097152 \
-      net.core.netdev_max_backlog=32768"
+  ssh -n -o StrictHostKeyChecking=no root@"$ip_address" "sudo sysctl -w \
+    net.core.rmem_max=134217728 \
+    net.core.wmem_max=134217728 \
+    net.core.rmem_default=67108864 \
+    net.core.wmem_default=8388608 \
+    net.core.netdev_max_backlog=65536"
 done < node_ip_all
 
 wait
