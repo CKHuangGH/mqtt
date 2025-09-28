@@ -14,6 +14,18 @@ spec:
       labels:
         app: runner
     spec:
+      securityContext:
+        sysctls:
+          - name: net.core.rmem_default
+            value: "67108864"     # 64 MB (從 8MB 拉高)
+          - name: net.core.rmem_max
+            value: "134217728"    # 128 MB (保留)
+          - name: net.core.wmem_default
+            value: "8388608"      # 8 MB (從 2MB 拉高)
+          - name: net.core.wmem_max
+            value: "134217728"    # 128 MB
+          - name: net.core.netdev_max_backlog
+            value: "65536"        # 由 32768 加倍
       nodeSelector:
         worker: "5"
       hostname: runnermqtt4
