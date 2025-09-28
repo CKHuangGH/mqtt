@@ -18,7 +18,7 @@ spec:
         worker: "6"
       hostname: runnermqtt5
       subdomain: benchnet
-initContainers:
+      initContainers:
         - name: sysctl-tune
           image: alpine:3.20
           imagePullPolicy: IfNotPresent
