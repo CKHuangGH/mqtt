@@ -18,37 +18,38 @@ spec:
         worker: "3"
       hostname: runnermqtt2
       subdomain: benchnet
-      initContainers:
+initContainers:
         - name: sysctl-tune
-          image: busybox:1.36
+          image: alpine:3.20
           imagePullPolicy: IfNotPresent
           securityContext:
-            privileged: true         # 需要寫 /proc/sys
+            privileged: true
             runAsUser: 0
           command: ["sh","-lc"]
           args:
             - |
-              set -e
-              # 調大 UDP / 核心緩衝與隊列
-              sysctl -w net.core.rmem_max=134217728
-              sysctl -w net.core.wmem_max=134217728
-              sysctl -w net.core.rmem_default=4194304
-              sysctl -w net.core.wmem_default=1048576
-              sysctl -w net.core.netdev_max_backlog=16384
-              sysctl -w net.ipv4.udp_mem="98304 131072 262144"
-              sysctl -w net.ipv4.udp_rmem_min=262144
-              sysctl -w net.ipv4.udp_wmem_min=262144
-              # 打印確認
-              echo "=== sysctl after tune ==="
-              for k in \
-                net/core/rmem_max net/core/rmem_default \
-                net/core/wmem_max net/core/wmem_default \
-                net/core/netdev_max_backlog \
-                net/ipv4/udp_mem net/ipv4/udp_rmem_min net/ipv4/udp_wmem_min
-              do
-                printf "%s=" "$k"; cat /proc/sys/$k || true
-              done
-              echo "========================="
+              set -u
+              apk add --no-cache procps >/dev/null 2>&1 || true
+
+              show() {
+                for k in net/ipv4/udp_rmem_min net/ipv4/udp_wmem_min; do
+                  p=/proc/sys/$(echo $k | tr . /)
+                  printf "%s=" "$k"; [ -f "$p" ] && cat "$p" || echo NA
+                done
+              }
+
+              setv() {
+                k=$1; v=$2; p=/proc/sys/$(echo $k | tr . /)
+                sysctl -w $k=$v >/dev/null 2>&1 || true
+                [ -f "$p" ] && echo $v > "$p" 2>/dev/null || true
+              }
+
+              echo "=== before ==="; show
+              # 將最小收/發緩衝提高到 64MiB（與 node 上限 64MiB 對齊）
+              setv net.ipv4.udp_rmem_min 67108864
+              setv net.ipv4.udp_wmem_min 67108864
+              echo "=== after ==="; show
+              echo "sysctl-tune done."
       containers:
         - env:
             - name: ADD_NODE_TO_SUFFIX
