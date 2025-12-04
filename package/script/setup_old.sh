@@ -213,9 +213,9 @@ for dir in $(find "$BASE_DIR" -type d); do
     fi
 done
 
-# cilium config set multicast-enabled true
-# for ((i=180; i>0; i--)); do
-#     printf "\r%3d" $i
-#     sleep 1
-# done
-# cilium multicast add --group-ip 239.255.0.1
+cilium config set multicast-enabled true
+for ((i=180; i>0; i--)); do
+    printf "\r%3d" $i
+    sleep 1
+done
+cilium multicast add --group-ip 239.255.0.1
