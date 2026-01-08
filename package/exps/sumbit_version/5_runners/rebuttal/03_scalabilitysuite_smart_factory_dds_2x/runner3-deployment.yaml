@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runnermqtt3
+  labels:
+    app: runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runner
+  template:
+    metadata:
+      labels:
+        app: runner
+    spec:
+      nodeSelector:
+        worker: "4"
+      hostname: runnermqtt3
+      subdomain: benchnet
+      containers:
+        - env:
+            - name: ADD_NODE_TO_SUFFIX
+              value: "false"
+            - name: DEPLOY_DIR
+              value: /app/configs/builtin-test-suites/deployments
+            - name: DEVICE_DIR
+              value: /app/configs/builtin-test-suites/devices
+            - name: DIST_MODE
+              value: name
+            - name: NODE_BASE
+              value: runner3
+            - name: RELEASE_COOKIE
+              value: ps_bench_cookie
+            - name: RUN_TAG
+              value: dds_test
+            - name: SCENARIO
+              value: scalabilitysuite_smart_factory_dds_2x
+            - name: SCEN_DIR
+              value: /app/configs/builtin-test-suites/testcases
+          image: docker.io/library/ps_bench-runner:latest
+          imagePullPolicy: Never
+          name: runnermqtt3
+          volumeMounts:
+            - name: shared
+              mountPath: /app/out
+              subPath: out
+            - name: shared
+              mountPath: /app/results
+              subPath: result
+      volumes:
+        - name: shared
+          persistentVolumeClaim:
+            claimName: runnermqtt3-shared-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: runnermqtt3-shared-pvc
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path

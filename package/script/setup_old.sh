@@ -112,34 +112,40 @@ done
 #   --set kube-state-metrics.tolerations[0].effect=NoSchedule
 
 
-# Add Docker's official GPG key:
-# sudo apt-get update
-# sudo apt-get install ca-certificates curl -y
-# sudo install -m 0755 -d /etc/apt/keyrings
-# sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-# sudo chmod a+r /etc/apt/keyrings/docker.asc
+Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl -y
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# echo \
-#   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-#   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-#   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# sudo apt-get update
+sudo apt-get update
 
-# sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-#   -o Dpkg::Options::="--force-confold" \
-#   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  -o Dpkg::Options::="--force-confold" \
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # cd /root/ps-bench/ps_bench
 # docker build -t ps_bench-runner:latest .
 # docker build -t mosquitto-with-exporter:latest -f Dockerfile.mosquitto .
 # docker build -t emqx-with-exporter:latest -f Dockerfile.emqx .
+# docker build -t mochi-with-exporter:latest -f Dockerfile.mochi .
+# docker build -t nanomq-with-exporter:latest -f Dockerfile.nanomq .
+# docker build -t vernemq-with-exporter:latest -f Dockerfile.vernemq .
 # 
 
 # cd /root/mqtt/package
 # docker save -o ps_bench-runner.tar ps_bench-runner:latest
 # docker save -o mosquitto-with-exporter.tar mosquitto-with-exporter:latest
 # docker save -o emqx-with-exporter.tar emqx-with-exporter:latest
+# docker save -o mochi-with-exporter.tar mochi-with-exporter:latest
+# docker save -o nanomq-with-exporter.tar nanomq-with-exporter:latest
+# docker save -o vernemq-with-exporter.tar vernemq-with-exporter:latest
 
 # mkdir images
 
