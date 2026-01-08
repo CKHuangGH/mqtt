@@ -23,9 +23,20 @@ spec:
               containerPort: 1883
             - name: metrics
               containerPort: 9100
+          volumeMounts:
+            - name: log
+              mountPath: /opt/emqx/log
           env:
             - name: EMQX_FORCE_SHUTDOWN__ENABLE
               value: "false"
+            - name: EMQX_DEFAULT_LOG_HANDLER
+              value: "false"
+            - name: EMQX_FORCE_SHUTDOWN__ENABLE
+              value: "false"
+      volumes:
+        - name: log
+          persistentVolumeClaim:
+            claimName: emqx-pvc
 ---
 apiVersion: v1
 kind: Service
