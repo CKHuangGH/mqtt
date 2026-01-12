@@ -12,6 +12,9 @@ for i in 1 2 3 4 5; do
   kubectl cp -c runnermqtt${i} "$pod":/app/results "results/"
 done
 
+broker=$(kubectl get pods -o name | grep "^pod/vernemq-" | head -n1 | cut -d/ -f2)
+kubectl cp -c vernemq "$broker":/var/log/vernemq "results/"
+
 echo "==== kubectl get pod -o wide ====" >> results/cluster_info.txt
 kubectl get pod -o wide >> results/cluster_info.txt
 
@@ -55,12 +58,12 @@ done < node_ip_workers
 
 sleep 5
 
-ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_city_mqttv5_nanomq/"
-scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_nanomq/$time
-ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_city_mqttv5_nanomq/$time/deployment_files/"
-scp -o StrictHostKeyChecking=no ./runner1-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_nanomq/$time/deployment_files/runner1-deployment.yaml
-scp -o StrictHostKeyChecking=no ./runner2-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_nanomq/$time/deployment_files/runner2-deployment.yaml
-scp -o StrictHostKeyChecking=no ./runner3-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_nanomq/$time/deployment_files/runner3-deployment.yaml
-scp -o StrictHostKeyChecking=no ./runner4-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_nanomq/$time/deployment_files/runner4-deployment.yaml
-scp -o StrictHostKeyChecking=no ./runner5-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_nanomq/$time/deployment_files/runner5-deployment.yaml
+ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_city_mqttv5_vernemq/"
+scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_vernemq/$time
+ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_city_mqttv5_vernemq/$time/deployment_files/"
+scp -o StrictHostKeyChecking=no ./runner1-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_vernemq/$time/deployment_files/runner1-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner2-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_vernemq/$time/deployment_files/runner2-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner3-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_vernemq/$time/deployment_files/runner3-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner4-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_vernemq/$time/deployment_files/runner4-deployment.yaml
+scp -o StrictHostKeyChecking=no ./runner5-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_vernemq/$time/deployment_files/runner5-deployment.yaml
 rm -rf results/

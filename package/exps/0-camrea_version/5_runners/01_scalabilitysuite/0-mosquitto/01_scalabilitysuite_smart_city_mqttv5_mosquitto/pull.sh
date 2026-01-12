@@ -12,7 +12,8 @@ for i in 1 2 3 4 5; do
   kubectl cp -c runnermqtt${i} "$pod":/app/results "results/"
 done
 
-kubectl cp -c mosquitto "$pod":/mosquitto/log "results/"
+broker=$(kubectl get pods -o name | grep "^pod/mosquitto-" | head -n1 | cut -d/ -f2)
+kubectl cp -c mosquitto "$broker":/mosquitto/log "results/"
 
 echo "==== kubectl get pod -o wide ====" >> results/cluster_info.txt
 kubectl get pod -o wide >> results/cluster_info.txt

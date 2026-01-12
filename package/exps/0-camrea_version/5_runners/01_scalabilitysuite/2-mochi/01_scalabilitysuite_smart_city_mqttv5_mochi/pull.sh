@@ -12,6 +12,9 @@ for i in 1 2 3 4 5; do
   kubectl cp -c runnermqtt${i} "$pod":/app/results "results/"
 done
 
+broker=$(kubectl get pods -o name | grep "^pod/mochi-" | head -n1 | cut -d/ -f2)
+kubectl cp -c mochi "$broker":/logs "results/"
+
 echo "==== kubectl get pod -o wide ====" >> results/cluster_info.txt
 kubectl get pod -o wide >> results/cluster_info.txt
 
