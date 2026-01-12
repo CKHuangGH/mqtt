@@ -29,7 +29,7 @@ spec:
       volumes:
         - name: log
           persistentVolumeClaim:
-            claimName: emqx-pvc
+            claimName: mochi-pvc
 ---
 apiVersion: v1
 kind: Service
