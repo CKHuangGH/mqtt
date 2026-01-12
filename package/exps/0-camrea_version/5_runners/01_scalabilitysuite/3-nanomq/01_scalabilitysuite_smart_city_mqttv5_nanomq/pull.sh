@@ -13,7 +13,8 @@ for i in 1 2 3 4 5; do
 done
 
 broker=$(kubectl get pods -o name | grep "^pod/nanomq-" | head -n1 | cut -d/ -f2)
-kubectl cp -c nanomq "$broker":/logs "results/"
+mkdir -p results/brokerlog
+kubectl cp -c nanomq "$broker":/logs "results/brokerlog"
 
 echo "==== kubectl get pod -o wide ====" >> results/cluster_info.txt
 kubectl get pod -o wide >> results/cluster_info.txt

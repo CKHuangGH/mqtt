@@ -13,7 +13,8 @@ for i in 1 2 3 4 5; do
 done
 
 broker=$(kubectl get pods -o name | grep "^pod/emqx-" | head -n1 | cut -d/ -f2)
-kubectl cp -c emqx "$broker":/opt/emqx/log "results/"
+mkdir -p results/brokerlog
+kubectl cp -c emqx "$broker":/opt/emqx/log "results/brokerlog"
 
 echo "==== kubectl get pod -o wide ====" >> results/cluster_info.txt
 kubectl get pod -o wide >> results/cluster_info.txt
