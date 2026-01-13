@@ -11,7 +11,9 @@ for i in 1 2; do
   # kubectl cp -c runnermqtt${i} "$pod":/app/out     "results/"
   kubectl cp -c runnermqtt${i} "$pod":/app/results "results/"
 done
-
+broker=$(kubectl get pods -o name | grep "^pod/mochi-" | head -n1 | cut -d/ -f2)
+mkdir -p results/brokerlog
+kubectl cp -c mochi "$broker":/logs "results/brokerlog"
 echo "==== kubectl get pod -o wide ====" >> results/cluster_info.txt
 kubectl get pod -o wide >> results/cluster_info.txt
 
@@ -56,7 +58,8 @@ done < node_ip_workers
 sleep 5
 
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_home_mqttv5_10x_mochi/"
-scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_home_mqttv5_10x_mochi/$time
+tar -czf results.tar.gz -9 results/
+scp -o StrictHostKeyChecking=no results.tar.gz chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_home_mqttv5_10x_mochi/$time
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_home_mqttv5_10x_mochi/$time/deployment_files/"
 scp -o StrictHostKeyChecking=no ./runner1-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_home_mqttv5_10x_mochi/$time/deployment_files/runner1-deployment.yaml
 scp -o StrictHostKeyChecking=no ./runner2-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_home_mqttv5_10x_mochi/$time/deployment_files/runner2-deployment.yaml
