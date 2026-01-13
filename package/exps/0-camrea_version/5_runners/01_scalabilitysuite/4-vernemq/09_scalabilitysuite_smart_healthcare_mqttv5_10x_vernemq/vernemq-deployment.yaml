@@ -53,6 +53,9 @@ spec:
         - name: vernemq
           image: docker.io/library/vernemq-with-exporter
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: log
+              mountPath: /var/log/vernemq
           env:
             - name: DOCKER_VERNEMQ_ACCEPT_EULA
               value: "yes"
@@ -60,11 +63,17 @@ spec:
               value: "off"
             - name: DOCKER_VERNEMQ_ALLOW_ANONYMOUS
               value: "on"
+            - name: DOCKER_VERNEMQ_LOG__CONSOLE
+              value: "file"
           ports:
             - name: mqtt
               containerPort: 1883
             - name: metrics
               containerPort: 9100
+      volumes:
+        - name: log
+          persistentVolumeClaim:
+            claimName: vernemq-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -81,3 +90,14 @@ spec:
     - name: metrics
       port: 9100
       targetPort: 9100
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vernemq-pvc
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path
