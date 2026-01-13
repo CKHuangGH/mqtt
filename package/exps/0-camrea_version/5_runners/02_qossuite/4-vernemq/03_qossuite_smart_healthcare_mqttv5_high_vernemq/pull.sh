@@ -58,7 +58,7 @@ done < node_ip_workers
 sleep 5
 
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/qossuite_smart_healthcare_mqttv5_high_vernemq/"
-tar -czf results.tar.gz -9 results/
+tar -I 'gzip -9' -cf results.tar.gz results/
 scp -o StrictHostKeyChecking=no results.tar.gz chuang@172.16.111.106:/home/chuang/qossuite_smart_healthcare_mqttv5_high_vernemq/$time
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/qossuite_smart_healthcare_mqttv5_high_vernemq/$time/deployment_files/"
 scp -o StrictHostKeyChecking=no ./runner1-deployment.yaml chuang@172.16.111.106:/home/chuang/qossuite_smart_healthcare_mqttv5_high_vernemq/$time/deployment_files/runner1-deployment.yaml
