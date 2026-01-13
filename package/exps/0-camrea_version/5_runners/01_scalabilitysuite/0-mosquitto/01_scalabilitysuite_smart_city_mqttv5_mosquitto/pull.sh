@@ -61,7 +61,7 @@ sleep 5
 
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_city_mqttv5_mosquitto/"
 
-tar -czf results.tar.gz -9 results/
+tar -I 'gzip -9' -cf results.tar.gz results/
 
 scp -o StrictHostKeyChecking=no results.tar.gz chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_city_mqttv5_mosquitto/$time
 
