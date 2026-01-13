@@ -17,7 +17,7 @@ name_job = name + clusters
 prod_network = en.G5kNetworkConf(type="prod", roles=["my_network"], site=site)
 
 # === EnOSlib: Reserve physical nodes ===
-pool = [f"paradoxe-{i}.rennes.grid5000.fr" for i in range(33, 48)]
+pool = [f"paradoxe-{i}.rennes.grid5000.fr" for i in range(33, 49)]
 
 conf = (
     en.G5kConf.from_settings(job_type=[], job_name=name_job, walltime=duration)
