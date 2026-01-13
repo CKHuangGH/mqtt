@@ -17,18 +17,14 @@ name_job = name + clusters
 prod_network = en.G5kNetworkConf(type="prod", roles=["my_network"], site=site)
 
 # === EnOSlib: Reserve physical nodes ===
+pool = [f"paradoxe-{i}.rennes.grid5000.fr" for i in range(33, 48)]
+
 conf = (
-    en.G5kConf.from_settings(job_type="allow_classic_ssh", job_name=name_job, walltime=duration)
+    en.G5kConf.from_settings(job_type=[], job_name=name_job, walltime=duration)
     .add_network_conf(prod_network)
-    .add_network(
-        id="not_linked_to_any_machine", type="slash_22", roles=["my_subnet"], site=site
-    )
-    .add_machine(
-    roles=["role0"], cluster=clusters, nodes=1, primary_network=prod_network
-    )
-    .add_machine(
-    roles=["role1"], cluster=clusters, nodes=1, primary_network=prod_network
-    )
+    .add_network(id="not_linked_to_any_machine", type="slash_22", roles=["my_subnet"], site=site)
+    .add_machine(roles=["role0"], servers=pool, nodes=1, primary_network=prod_network)
+    .add_machine(roles=["role1"], servers=pool, nodes=1, primary_network=prod_network)
     .finalize()
 )
 provider = en.G5k(conf)
