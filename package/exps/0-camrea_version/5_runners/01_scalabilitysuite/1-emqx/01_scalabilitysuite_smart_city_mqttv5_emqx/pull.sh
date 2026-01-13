@@ -36,7 +36,7 @@ sleep 5
 NAMESPACE="default"
 LINES=200   # You can change this to 500, 2000, or remove it to fetch full logs
 
-OUT_DIR="./results/pod_logs"
+OUT_DIR="results.tar.gz/pod_logs"
 mkdir -p "$OUT_DIR"
 
 # Get all Pod names in the namespace
