@@ -1,4 +1,4 @@
-time=$1
+﻿time=$1
 mkdir -p results
 for i in 1 2 3 4 5 6 7 8; do
   pod=$(kubectl get pods -o name | grep "^pod/runnermqtt${i}-" | head -n1 | cut -d/ -f2)
@@ -58,8 +58,8 @@ done < node_ip_workers
 sleep 5
 
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_healthcare_mqttv5_2x_nanomq/"
-tar -I 'gzip -9' -cf results.tar.gz results/
-scp -o StrictHostKeyChecking=no results.tar.gz chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_healthcare_mqttv5_2x_nanomq/$time
+tar -I 'gzip -9' -cf results-$time.tar.gz results/
+scp -o StrictHostKeyChecking=no results-$time.tar.gz chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_healthcare_mqttv5_2x_nanomq/
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_healthcare_mqttv5_2x_nanomq/$time/deployment_files/"
 scp -o StrictHostKeyChecking=no ./runner1-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_healthcare_mqttv5_2x_nanomq/$time/deployment_files/runner1-deployment.yaml
 scp -o StrictHostKeyChecking=no ./runner2-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_healthcare_mqttv5_2x_nanomq/$time/deployment_files/runner2-deployment.yaml
