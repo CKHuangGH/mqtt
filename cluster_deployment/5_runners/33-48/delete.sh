@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 從 01 到 08 都跑一次
-for i in 01 02 03 04 05 06 07 08 09 10 11 12; do
+for i in 01 02 03 04 05 06 07 08; do
     echo ">>> Entering $i"
     cd "$i" || exit 1
     if [ -x "./03_del.sh" ]; then
