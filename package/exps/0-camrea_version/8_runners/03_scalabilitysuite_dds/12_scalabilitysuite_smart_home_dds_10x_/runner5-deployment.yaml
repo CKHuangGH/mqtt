@@ -48,6 +48,9 @@ spec:
             - name: shared
               mountPath: /app/results
               subPath: result
+            - name: shared
+              mountPath: /app/logs
+              subPath: logs
       volumes:
         - name: shared
           persistentVolumeClaim:

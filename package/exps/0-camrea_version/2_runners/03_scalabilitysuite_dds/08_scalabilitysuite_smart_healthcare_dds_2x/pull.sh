@@ -1,5 +1,6 @@
 time=$1
 mkdir -p results
+mkdir -p results/log
 for i in 1 2; do
   pod=$(kubectl get pods -o name | grep "^pod/runnermqtt${i}-" | head -n1 | cut -d/ -f2)
   if [ -z "$pod" ]; then
@@ -8,7 +9,7 @@ for i in 1 2; do
   fi
 
   echo ">>> Copying $pod ..."
-  # kubectl cp -c runnermqtt${i} "$pod":/app/out     "results/"
+  kubectl cp -c runnermqtt${i} "$pod":/app/logs     "results/log/"
   kubectl cp -c runnermqtt${i} "$pod":/app/results "results/"
 done
 
@@ -56,7 +57,8 @@ done < node_ip_workers
 sleep 5
 
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_healthcare_dds_2x/"
-scp -o StrictHostKeyChecking=no -r ./results chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_healthcare_dds_2x/$time
+tar -I 'gzip -9' -cf results-$time.tar.gz results/
+scp -o StrictHostKeyChecking=no results-$time.tar.gz chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_healthcare_dds_2x/
 ssh -o StrictHostKeyChecking=no chuang@172.16.111.106 "mkdir -p /home/chuang/scalabilitysuite_smart_healthcare_dds_2x/$time/deployment_files/"
 scp -o StrictHostKeyChecking=no ./runner1-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_healthcare_dds_2x/$time/deployment_files/runner1-deployment.yaml
 scp -o StrictHostKeyChecking=no ./runner2-deployment.yaml chuang@172.16.111.106:/home/chuang/scalabilitysuite_smart_healthcare_dds_2x/$time/deployment_files/runner2-deployment.yaml
