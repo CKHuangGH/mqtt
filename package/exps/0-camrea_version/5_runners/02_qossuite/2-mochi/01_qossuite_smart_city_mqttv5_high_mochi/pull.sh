@@ -1,4 +1,4 @@
-﻿time=$1
+time=$1
 mkdir -p results
 for i in 1 2 3 4 5; do
   pod=$(kubectl get pods -o name | grep "^pod/runnermqtt${i}-" | head -n1 | cut -d/ -f2)
