@@ -17,7 +17,7 @@ for (( times=0; times<7; times++ )); do
     sleep 2
     kubectl apply -f runner5-deployment.yaml
     sleep 2
-    for ((i=1200; i>0; i--)); do
+    for ((i=1800; i>0; i--)); do
         printf "\r%3d" $i
         sleep 1
     done
